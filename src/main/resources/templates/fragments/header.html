@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" th:fragment="modelheader">          
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <link href="/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css" rel="stylesheet"/>               
+    </head>
+    <body class="jumbotron" style="font-family: cursive">
+        <div class="container">     
+            <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16" style="margin-bottom: 10px">
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            </svg>
+            <h1 style="float: right; width: 94%; margin-top: 6px"><span style="color: grey">Market</span>Place</h1>        
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Cadastrar
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" sec:authorize="hasRole('ADMIN')" href="/produtos/form">Novo Produto</a>
+                                <a class="dropdown-item" href="/vendas/form">Nova Venda</a>
+                                <a class="dropdown-item" sec:authorize="hasRole('ADMIN')" href="/clientes/form">Novo Cliente</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')"><!--Só acessa usuario com permissão(role) ADMIN-->
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Visualizar
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/produtos/list">Produtos</a>
+                                <a class="dropdown-item" href="/vendas/list">Vendas</a>
+                                <a class="dropdown-item" href="/clientes/list">Clientes</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="btn btn-inline-light text-wrap">Olá, <span sec:authentication="name"></span></div>
+                    <form th:action="@{/logout}" method="post" class="navbar-form navbar-right my-2 my-lg-0">
+                        <button type="submit" class="btn btn-dark">Sair</button>
+                    </form>
+                </div>
+            </nav>
+            <hr/>
+        </div>
+    </body>
+</html>
+
+
+

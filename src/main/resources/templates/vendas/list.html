@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Listando Vendas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:insert="fragments/header :: modelheader"></div>
+        <div class="container">
+            <label style="float: right">
+             <form th:action="@{filtrarData}" method="post" class="form-inline my-2 my-lg-0">
+                <input type="date" th:value="${databusca}" th:name="databusca" class="form-control mr-sm-2">
+                <input type="submit" value="Filtrar" class="btn btn-outline-info my-2 my-sm-0">
+             </form><br>             
+             </label>   
+            <h2>Vendas</h2>
+            <table class="table" border="0">
+                <thead>
+                    <tr style="background-color: silver">
+                        <th>Id</th>
+                        <th>Data</th>
+                        <th>Total</th>
+                        <th>Cliente</th>
+                        <th style="text-align: center">Ação</th>
+                    </tr>
+                </thead>
+                <tr th:each="v : ${vendas}">
+                    <td th:text="${v.id}"></td>   
+                    <td th:text="${#temporals.format(v.data, 'dd/MM/yyyy')}"> </td>
+                    <td th:text="${#numbers.formatCurrency(v.total())}"> </td>
+                    <td th:text="${v.cliente.nome}"></td>   
+                    <td style="text-align: center"><a th:href="@{/consultar/list/{id}(id=${v.id})}"><button type="button" class="btn btn-info">Consulta</button></a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:insert="fragments/footer :: modelfooter"></div>
+    </body>
+</html>

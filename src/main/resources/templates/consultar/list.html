@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Consultar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:insert="fragments/header :: modelheader"></div>
+        <div class="container">
+            <table class="table" border="0">
+                <thead>
+                    <tr style="background-color: silver">
+                        <th>ID</th>
+                        <th>Produtos</th>
+                        <th>Quantidade</th>
+                        <th>Total Produtos</th>
+                    </tr>
+                </thead>
+                <tr th:each="i : ${vendas.itens}">
+                    <td th:text="${i.id}"></td>
+                    <td th:text="${i.produto.descricao}"></td>
+                    <td th:text="${i.quantidade}"></td>
+                    <td th:text="${#numbers.formatCurrency(i.total())}"> </td><!--total produto-->        
+                </tr>
+            </table>
+            <table class="table" border="1" style="border: silver">
+                <thead>
+                    <tr style="background-color: silver; text-align: center">
+                        <th>Cliente</th>
+                        <th>Total Compra</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tr style="text-align: center">
+                    <td th:text="${vendas.cliente.nome}"></td>
+                    <td th:text="${#numbers.formatCurrency(vendas.total())}"></td>
+                    <td th:text="${#temporals.format(vendas.data, 'dd/MM/yyyy')}"></td>
+                </tr>
+            </table>
+            <span style="margin-left: 500px;"><a th:href="@{/vendas/list}"><button type="button" class="btn btn-info">Voltar</button></a></span>
+        </div>
+        <div th:insert="fragments/footer :: modelfooter"></div>
+    </body>
+</html>

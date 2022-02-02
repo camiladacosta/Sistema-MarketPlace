@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Listando Clientes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:insert="fragments/header :: modelheader"></div>
+        <div class="container">            
+            <label style="float: right">
+                <form th:action="@{listarCliente}" method="post" class="form-inline my-2 my-lg-0">
+                    <input type="text" th:value="${buscacliente}" th:name="buscacliente" placeholder="Consulte o cliente" class="form-control mr-sm-2">
+                    <input type="submit" value="Filtrar" class="btn btn-outline-info my-2 my-sm-0">
+                </form><br>
+            </label>
+            <h2>Clientes</h2>   
+            <table class="table" border="0">
+                <thead>
+                    <tr style="background-color: silver">
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th colspan="2" style="text-align: center">Ações</th>
+                    </tr>
+                </thead>
+                <tr th:each="c : ${clientes}">
+                    <td th:text="${c.id}"> </td>
+                    <td th:text="${c.nome}"> </td>
+                    <td th:text="${c.cpf}"> </td>
+                    <td style="text-align: center"> <a th:href="@{/clientes/edit/{id}(id=${c.id})}"><button type="button" class="btn btn-success">Editar</button></a> </td>
+                    
+                    <td style="text-align: center"> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/clientes/remove/{id}(id=${c.id})}">
+                            <button type="button" class="btn btn-danger">Excluir</button></a> </td>
+                </tr>
+            </table>
+            <label style="margin-left: 45%">
+                <a th:href="form"><button type="button" class="btn btn-outline-success">Novo</button></a>
+            </label>
+        </div>
+        <div th:insert="fragments/footer :: modelfooter"></div>
+    </body>
+</html>

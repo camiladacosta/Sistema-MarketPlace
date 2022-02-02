@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Listando Produtos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:insert="fragments/header :: modelheader"></div>
+        <div class="container">
+            <h2>Produtos</h2><br>
+        <table class="table" border="0">
+            <thead>
+                <tr style="background-color: silver">
+                    <th>Id</th>
+                    <th>Descrição</th>
+                    <th>Total</th>
+                    <th colspan="2" style="text-align: center">Ações</th>
+                </tr>
+            </thead>
+            <tr th:each="p : ${produtos}">
+                <td th:text="${p.id}"> </td>
+                <td th:text="${p.descricao}"> </td>
+                <td th:text="${#numbers.formatCurrency(p.valor)}"> </td>
+                <td style="text-align: center"><a th:href="@{/produtos/edit/{id}(id=${p.id})}">
+                        <button type="button" class="btn btn-success">Editar</button>
+                    </a>
+                </td>
+                <td style="text-align: center"> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/produtos/remove/{id}(id=${p.id})}">
+                        <button type="button" class="btn btn-danger">Excluir</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <label style="margin-left: 45%">
+            <a th:href="form"><button type="button" class="btn btn-outline-success">Novo</button></a>
+        </label>
+        </div>
+        <div th:insert="fragments/footer :: modelfooter"></div>
+    </body>
+</html>

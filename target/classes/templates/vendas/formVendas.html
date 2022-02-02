@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Formulário</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:insert="fragments/header :: modelheader"></div>
+        <div class="container">
+            
+            <!--<div class="alert alert-danger" th:errors="${clientes.*}"></div>-->
+            <div class="alert alert-danger" th:errors="${itemVenda.*}"></div>
+                       
+            
+            <div th:class="${!#strings.isEmpty(erro)} ?'alert alert-danger'">
+                <span th:text="${!#strings.isEmpty(erro)} ? ${erro}"></span>
+            </div>
+            
+            <div th:class="${!#strings.isEmpty(errocliente)} ?'alert alert-danger'">
+                <span th:text="${!#strings.isEmpty(errocliente)} ? ${errocliente}"></span>
+            </div>
+            
+            
+            <h2>Produtos</h2    >
+            <table class="table" border="0">
+                <thead>
+                    <tr style="background-color: silver; text-align: center">
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tr th:each="p : ${produtos}" style="text-align: center">
+                    <td th:text="${p.descricao}" th:value="${p.descricao}"></td>
+                    <td th:text="${#numbers.formatCurrency(p.valor)}" th:value="${p.valor}"></td>
+
+                <form th:action="@{/vendas/add}" th:object="${itemVenda}" method="post"><!--nome da classe no object-->
+                    <input type="hidden" th:value="${p.id}" th:name="produto.id">
+                    <td><input type="text" th:field="*{quantidade}" class="form-control mr-sm-3"></td>
+                    <td><input type="submit" value="ADD" class="btn btn-success"></td>
+                </form>
+
+                </tr>
+            </table><hr>
+            <h2>Carrinho</h2>
+            <table class="table" border="1">
+                <thead>
+                    <tr>                   
+                        <th>Item</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>Ação</th>
+                    </tr>
+                    <tr th:each="v,posicao : ${session.venda.itens}">
+                        <td th:text="${posicao.index+1}"> </td>
+                        <td th:text="${v.produto.descricao}"> </td>
+                        <td th:text="${#numbers.formatCurrency(v.produto.valor)}"> </td>
+                        <td th:text="${v.quantidade}"> </td>
+                        <td th:text="${#numbers.formatCurrency(v.total())}"> </td>
+                        <td> <a th:href="@{/vendas/remove/{pos}(pos=${posicao.index})}"class="btn btn-danger">Excluir</a> </td>
+                        
+                    </tr>
+
+                </thead>
+            </table><hr>
+            <label style="margin-left: 90%"><strong>Total:</strong><span th:text="' '+ ${#numbers.formatCurrency(session.venda.total())}"/></label>
+            <!--<h3 th:text="'Total: '+ ${#numbers.formatCurrency(session.venda.total())}" style="text-align: center"></h3>-->
+            
+            <label style="width: 100%;text-align: right;margin-left: 71%">
+            <form th:action="@{/vendas/save}" method="post" th:object="${clientePF}" class="form-inline my-2 my-lg-0">
+                
+                <select name="id" class="form-control mr-sm-2">
+                    <option value=0>Selecione o Cliente</option>
+                    <option th:each="c : ${clientes}"
+                            th:value="${c.id}"
+                            th:text="${c.nome}"></option>
+                </select><br>
+                <input type="submit" value="Finalizar Venda" class="btn btn-outline-success my-2 my-sm-0">
+            </form>
+            </label>
+        </div>
+        <div th:insert="fragments/footer :: modelfooter"></div>
+    </body>
+</html>
